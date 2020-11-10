@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="1"
+    android:background="#FFCC00"
+    android:id="@+id/splash">
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="388dp"
+        android:layout_height="366dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/head"
+        app:layout_constraintBottom_toTopOf="@+id/text_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+       >
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/text_logo"
+        android:layout_width="348dp"
+        android:layout_height="68dp"
+        android:fontFamily="@font/bangers"
+        android:text="Black's Jack"
+        android:textAlignment="center"
+        android:textColor=" #3d3d29"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.73" />
+
+    <TextView
+        android:id="@+id/text_slogan"
+        android:layout_width="159dp"
+        android:layout_height="32dp"
+        android:fontFamily="@font/bangers"
+        android:text="Best game In The World"
+        android:textAlignment="center"
+        android:textColor=" #3d3d29"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_logo"
+        app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

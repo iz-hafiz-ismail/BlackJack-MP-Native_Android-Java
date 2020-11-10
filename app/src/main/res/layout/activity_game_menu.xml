@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.blackjackgame.GameMenu"
+    android:orientation="vertical"
+    android:background="@color/bgcolor"
+    android:id="@+id/login_form">
+    <LinearLayout
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/txtcolor">
+
+        <ImageView
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/avatar"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/bgcolor"
+            android:text="Let's Play Bl♠ck Jack"
+            android:fontFamily="@font/bungee"
+            android:textSize="24sp"
+            android:layout_gravity="center">
+
+
+        </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="PLAY"
+            android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/btn_view_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View History"/>
+        <Button
+            android:id="@+id/btn_settings"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="SEttings"/>
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Keluar"
+            />
+
+        <TextView
+            android:id="@+id/txt_user_name_game"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/antic"
+            android:textColor="@color/txtcolor"
+            android:textSize="28sp"
+            android:layout_gravity="right"
+            />
+
+    </LinearLayout>
+</LinearLayout>

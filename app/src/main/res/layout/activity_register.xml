@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.blackjackgame.Register"
+    android:background="@color/bgcolor"
+    android:padding="15dp"
+    android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="235dp"
+            android:layout_height="219dp"
+            android:src="@drawable/head">
+
+        </ImageView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Welcome,"
+            android:fontFamily="@font/bungee"
+            android:textColor="@color/txtcolor"
+            android:textSize="40sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SignUp to become Penjudi"
+            android:textColor="@color/txtcolor"
+            android:fontFamily="@font/antic"
+            android:textSize="18sp">
+        </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/txt_fullName"
+            app:boxStrokeColor="@color/txtcolor"
+            android:textColorHint="@color/txtcolor"
+            android:hint="Full name"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/txt_username"
+            app:boxStrokeColor="@color/txtcolor"
+            android:textColorHint="@color/txtcolor"
+            android:hint="Username"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/txt_email"
+            app:boxStrokeColor="@color/txtcolor"
+            android:textColorHint="@color/txtcolor"
+            android:hint="Email"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/txt_password"
+            app:boxStrokeColor="@color/txtcolor"
+            android:textColorHint="@color/txtcolor"
+            app:passwordToggleEnabled="true"
+            android:hint="Password"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+       <Button
+           android:layout_marginTop="20dp"
+           android:id="@+id/btn_register"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="GO"
+           android:background="@color/txtcolor"/>
+
+        <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Already have An account? login"
+            android:textColor="@color/txtcolor"
+            android:background="#00000000">
+
+        </Button>
+
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
