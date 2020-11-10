@@ -1,4 +1,4 @@
-package com.example.blackjackgame;
+package com.example.blackjackgame.model;
 
 import android.content.Context;
 import android.view.LayoutInflater;

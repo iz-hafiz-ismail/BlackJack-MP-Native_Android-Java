@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.blackjackgame.GameMenu"
+    tools:context="com.example.blackjackgame.view.GameMenu"
     android:orientation="vertical"
     android:background="@color/bgcolor"
     android:id="@+id/login_form">

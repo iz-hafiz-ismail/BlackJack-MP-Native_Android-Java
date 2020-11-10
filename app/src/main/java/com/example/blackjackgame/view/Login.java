@@ -1,9 +1,8 @@
-package com.example.blackjackgame;
+package com.example.blackjackgame.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.blackjack.R;
+import com.example.blackjackgame.other.SessionManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

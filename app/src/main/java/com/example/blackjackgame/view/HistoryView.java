@@ -1,4 +1,4 @@
-package com.example.blackjackgame;
+package com.example.blackjackgame.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.blackjack.R;
+import com.example.blackjackgame.model.History;
+import com.example.blackjackgame.model.HistoryAdapter;
+import com.example.blackjackgame.other.SessionManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

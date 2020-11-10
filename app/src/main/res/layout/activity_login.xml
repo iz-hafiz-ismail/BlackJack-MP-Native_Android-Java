@@ -8,7 +8,7 @@
     android:padding="15dp"
     android:id="@+id/login_form_test"
     android:orientation="vertical"
-    tools:context="com.example.blackjackgame.Login">
+    tools:context="com.example.blackjackgame.view.Login">
 
     <ImageView
         android:id="@+id/img_logo_login"

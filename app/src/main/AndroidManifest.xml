@@ -9,18 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name="com.example.blackjackgame.HistoryView"></activity>
-        <activity android:name="com.example.blackjackgame.GameMenu" />
-        <activity android:name="com.example.blackjackgame.Register" />
-        <activity android:name="com.example.blackjackgame.Login" />
-        <activity android:name="com.example.blackjackgame.MainActivity">
+        <activity android:name="com.example.blackjackgame.view.HistoryView"></activity>
+        <activity android:name="com.example.blackjackgame.view.GameMenu" />
+        <activity android:name="com.example.blackjackgame.view.Register" />
+        <activity android:name="com.example.blackjackgame.view.Login" />
+        <activity android:name="com.example.blackjackgame.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name="com.example.blackjackgame.view.GameActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

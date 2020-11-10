@@ -1,4 +1,4 @@
-package com.example.blackjackgame;
+package com.example.blackjackgame.model;
 
 public class History {
 

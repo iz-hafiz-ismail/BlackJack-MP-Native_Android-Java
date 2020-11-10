@@ -1,4 +1,4 @@
-package com.example.blackjackgame;
+package com.example.blackjackgame.other;
 
 import android.content.Context;
 import android.content.SharedPreferences;

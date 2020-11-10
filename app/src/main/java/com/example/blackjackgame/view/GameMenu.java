@@ -1,4 +1,4 @@
-package com.example.blackjackgame;
+package com.example.blackjackgame.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blackjack.R;
-import com.example.blackjackgame.view.Setting;
+import com.example.blackjackgame.model.History;
+import com.example.blackjackgame.other.SessionManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -76,6 +77,10 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
 
                             History history = new History(timeStamp,totalGame,totalWin);
                             reference.child(username).child(String.valueOf(timeStamp)).setValue(history);
+
+                            Intent intent = new Intent(GameMenu.this, GameActivity.class);
+                            intent.putExtra("MAXCARD", maxCard);
+                            startActivity(intent);
                         }
                     }
 
@@ -98,7 +103,7 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
             @Override
             public void onClick(View view) {
                 currentUser.logoutUserFromSession();
-                startActivity(new Intent(getApplicationContext(),Login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
 
             }

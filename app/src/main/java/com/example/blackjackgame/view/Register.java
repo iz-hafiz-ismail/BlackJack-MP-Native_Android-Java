@@ -1,4 +1,4 @@
-package com.example.blackjackgame;
+package com.example.blackjackgame.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blackjack.R;
+import com.example.blackjackgame.model.UserHelper;
+import com.example.blackjackgame.other.SessionManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -84,7 +86,7 @@ public class Register extends AppCompatActivity {
 
                            UserHelper user = new UserHelper(fullname,username,email,password,history);
                            reference.child(username).setValue(user);
-                           Intent i = new Intent(Register.this,GameMenu.class);
+                           Intent i = new Intent(Register.this, GameMenu.class);
                            startActivity(i);
                            finish();
                        }
