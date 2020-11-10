@@ -44,7 +44,9 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(Register.this, Login.class);
+                overridePendingTransition(0, 0);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         });
 

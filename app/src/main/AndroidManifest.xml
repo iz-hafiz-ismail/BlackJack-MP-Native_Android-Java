@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity android:name="com.example.blackjackgame.HistoryView"></activity>
-        <activity android:name="com.example.blackjackgame.Setting" />
         <activity android:name="com.example.blackjackgame.GameMenu" />
         <activity android:name="com.example.blackjackgame.Register" />
         <activity android:name="com.example.blackjackgame.Login" />

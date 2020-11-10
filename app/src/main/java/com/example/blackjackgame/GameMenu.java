@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blackjack.R;
+import com.example.blackjackgame.view.Setting;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +24,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class GameMenu extends AppCompatActivity {
+public class GameMenu extends AppCompatActivity implements Setting.editDataListener{
+
+    static int data;
+    static int maxCard=3;
+    boolean recordHistory=true;
 
     Animation leftRight;
     Button btnPlay,btnSetting,btnViewHistory;
@@ -98,5 +103,20 @@ public class GameMenu extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void openSetting(View view) {
+        Setting layoutSetting = new Setting();
+        Bundle args = new Bundle();
+        args.putInt("num", maxCard);
+        args.putBoolean("boolean",recordHistory);
+        layoutSetting.setArguments(args);
+        layoutSetting.show(getSupportFragmentManager(), "layout setting");
+    }
+
+    @Override
+    public void applyValue(int maxCardSetting,boolean recordHistorySetting) {
+        maxCard = maxCardSetting;
+        recordHistory = recordHistorySetting;
     }
 }

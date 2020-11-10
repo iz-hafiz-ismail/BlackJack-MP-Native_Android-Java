@@ -118,7 +118,9 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Login.this, Register.class);
+                overridePendingTransition(0, 0);
                 startActivity(i);
+                overridePendingTransition(0, 0);
 
             }
         });
