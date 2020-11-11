@@ -1,9 +1,7 @@
 package com.example.blackjackgame.view;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements  ResetGame.BottomSheetListener{
     TextView playerTotalPoint,gameStatus,maxHitAllowed,dealerTotalPoint;
     ImageView playerFirstCard,playerSecondCard,dealerFirstCard,dealerSecondCard;
     ImageView[] arrayPlayerCard = {playerFirstCard, playerSecondCard};
@@ -115,9 +113,6 @@ public class GameActivity extends AppCompatActivity {
                         totalGame = snapshot.child(String.valueOf(historyID)).child("totalGame").getValue(Integer.class);
                         totalWin = snapshot.child(String.valueOf(historyID)).child("totalWin").getValue(Integer.class);
                     }
-                    else{
-                        Log.d("testo", "onDataChange: huhu");
-                    }
                 }
 
                 @Override
@@ -126,7 +121,6 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
         }
-
         startGame();
     }
 
@@ -209,7 +203,6 @@ public class GameActivity extends AppCompatActivity {
     public void dealerHit() {
         dealerDrawCard();
         newImageViewForLayoutDealer(dealerHandView);
-        dealerHitLoss(mDealer.dealerHitLoss());
     }
 
     public void stand(View view) {
@@ -218,22 +211,6 @@ public class GameActivity extends AppCompatActivity {
         dealerDrawCard();
         dealerSetCard();
         dealerBlackjack(mDealer.dealerBlackjack());
-        while(mDealer.getTotalValue()<17){
-            if (dealerCurrCard<maxCard){
-                dealerHit();
-            }
-            else {
-                checkDealerMaxCard();
-                break;
-            }
-
-        }
-        if(dealerCurrCard<maxCard && mDealer.getTotalValue()>=17){
-            dealerHitLoss(mDealer.dealerHitLoss());
-        }
-        if(dealerCurrCard==maxCard && mDealer.getTotalValue()>=17){
-            checkDealerMaxCard();
-        }
     }
 
     public void playerBlackjack(int status){
@@ -250,7 +227,7 @@ public class GameActivity extends AppCompatActivity {
                 dealerDrawCard();
                 dealerSetCard();
                 dealerBlackjack(mDealer.dealerBlackjack());
-
+                playerWinGame();
                 break;
         }
     }
@@ -258,13 +235,27 @@ public class GameActivity extends AppCompatActivity {
     private void dealerBlackjack(int status) {
         switch(status){
             case NOT_BLACKJACK:
+                while(mDealer.getTotalValue()<17){
+                    if (dealerCurrCard<maxCard){
+                        dealerHit();
+                    }
+                    else {
+                        checkDealerMaxCard();
+                        break;
+                    }
+                }
+                if(dealerCurrCard<maxCard && mDealer.getTotalValue()>=17){
+                    dealerHitLoss(mDealer.dealerHitLoss());
+                }
+                else if(dealerCurrCard==maxCard && mDealer.getTotalValue()>=17){
+                    checkDealerMaxCard();
+                }
                 break;
             case BLACKJACK:
                 gameStatus.setText("Dealer Blackjack");
                 if(mDealer.getTotalValue()==21 && mPlayer.getTotalValue() == 21){
                     gameStatus.setText("Both blackjack, but player win as rule stated");
                 }
-                playerLossGame();
                 break;
         }
     }
@@ -293,6 +284,8 @@ public class GameActivity extends AppCompatActivity {
     public void dealerHitLoss(int status){
         switch (status){
             case ON_LIMIT:
+                battleShowdown();
+                break;
             case IN_LIMIT:
                 gameStatus.setText("SHOWDOWN");
                 battleShowdown();
@@ -345,8 +338,9 @@ public class GameActivity extends AppCompatActivity {
         }
         else if(mDealer.getTotalValue()==mPlayer.getTotalValue()){
             gameStatus.setText("Draw");
+            playerWinGame();
         }
-        else{
+        else if((mDealer.getTotalValue()<mPlayer.getTotalValue())){
             gameStatus.setText("Player win showdown");
             playerWinGame();
         }
@@ -358,15 +352,6 @@ public class GameActivity extends AppCompatActivity {
 
     public void setDealerCurrCard(){
         dealerCurrCard++;
-    }
-
-
-    public void reset(View view) {
-        databaseUpdater();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
     }
 
     public void playerWinGame(){
@@ -399,6 +384,8 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
         }
+        ResetGame resetGame = new ResetGame();
+        resetGame.show(getSupportFragmentManager(), "resetGameLayout");
     }
 
     public void refreshGame(){
@@ -406,6 +393,25 @@ public class GameActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
         startActivity(getIntent());
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent( GameActivity.this, GameMenu.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onButtonClicked(String text) {
+        if(text.equals("Main menu")){
+            refreshGame();
+        }
+        else if (text.equals("Play again")){
+            finish();
+            Intent intent = new Intent( GameActivity.this, GameMenu.class);
+            startActivity(intent);
+        }
     }
 }
 

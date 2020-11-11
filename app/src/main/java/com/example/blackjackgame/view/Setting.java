@@ -20,7 +20,7 @@ import com.example.blackjack.R;
 
 public class Setting extends AppCompatDialogFragment {
     int totalMaxCard = 5;
-    boolean recordHistory;
+    boolean recordHistory = true;
     TextView tvMaxCardHit;
     ImageView btnPlus, btnMinus;
     editDataListener listener;
