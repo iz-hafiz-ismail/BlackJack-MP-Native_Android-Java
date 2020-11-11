@@ -1,9 +1,15 @@
 package com.example.blackjackgame.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,12 +31,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import static java.lang.Thread.sleep;
+
 public class GameActivity extends AppCompatActivity implements  ResetGame.BottomSheetListener{
     TextView playerTotalPoint,gameStatus,maxHitAllowed,dealerTotalPoint;
     ImageView playerFirstCard,playerSecondCard,dealerFirstCard,dealerSecondCard;
     ImageView[] arrayPlayerCard = {playerFirstCard, playerSecondCard};
     ImageView[] arrayDealerCard = {dealerFirstCard,dealerSecondCard};
-    Button btnHit,btnStand;
+    Button btnHit,btnStand,btnStart;
 
     Deck mDeck;
     Player mPlayer;
@@ -51,6 +59,7 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
     String historyID;
 
     boolean recordHistory;
+    boolean togglePlayerBlackjack = false;
 
     static final int BLACKJACK=0;
     static final int NOT_BLACKJACK=1;
@@ -60,6 +69,8 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
     static final int MAX_WIN=0;
     static final int MAX_LOSS=1;
     static final int SHOWDOWN=2;
+
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +84,7 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
 
         btnHit=(Button) findViewById(R.id.buttonHit);
         btnStand=(Button) findViewById(R.id.buttonStand);
+        btnStart=(Button) findViewById(R.id.btnStartGame);
 
         playerFirstCard=(ImageView) findViewById(R.id.imageView);
         playerSecondCard=(ImageView) findViewById(R.id.imageView2);
@@ -96,6 +108,15 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
             username = mIntent.getStringExtra("USERNAME");
             historyID = mIntent.getStringExtra("HISTORYID");
             recordHistory = mIntent.getBooleanExtra("RECORDHISTORY",true);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Intent mIntent = getIntent();
+            totalGame =  mIntent.getIntExtra("TOTALGAME", 0);
+            totalWin =  mIntent.getIntExtra("TOTALWIN", 0);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -104,27 +125,16 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
         reference = FirebaseDatabase.getInstance().getReference("history");
         Query checkUser = reference.orderByChild("userName").equalTo(username);
 
+    }
 
-        if(recordHistory==true){
-            reference.child(username).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        totalGame = snapshot.child(String.valueOf(historyID)).child("totalGame").getValue(Integer.class);
-                        totalWin = snapshot.child(String.valueOf(historyID)).child("totalWin").getValue(Integer.class);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
+    public void Start(View view) {
+        btnStart.setVisibility(view.GONE);
         startGame();
     }
 
     private void startGame() {
+        btnHit.setVisibility(view.VISIBLE);
+        btnStand.setVisibility(view.VISIBLE);
         btnHit.setEnabled(false);
         btnStand.setEnabled(false);
         playerDrawCard();
@@ -154,6 +164,21 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
 
     private void playerSetCard(){
         arrayPlayerCard[indexPlayer-1].setImageResource(mDeck.getCardImage(indexPlayer-1));
+//        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(arrayPlayerCard[indexPlayer-1], "scaleX", 1f, 0f);
+//        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(arrayPlayerCard[indexPlayer-1], "scaleX", 0f, 1f);
+//        oa1.setDuration(500);
+//        oa2.setDuration(500);
+//        oa1.setInterpolator(new DecelerateInterpolator());
+//        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+//        oa1.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                super.onAnimationEnd(animation);
+//                arrayPlayerCard[indexPlayer-1].setImageResource(mDeck.getCardImage(indexPlayer-1));
+//                oa2.start();
+//            }
+//        });
+//        oa1.start();
     }
 
     private void dealerSetCard(){
@@ -184,7 +209,7 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
     }
 
     private void checkDealerMaxCard() {
-        if(currCard>=maxCard) {
+        if(dealerCurrCard>=maxCard) {
             btnHit.setEnabled(false);
             btnStand.setEnabled(false);
             dealerMaxLimit(mDealer.dealerMaxCardStatus());
@@ -222,12 +247,12 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
                 break;
             case BLACKJACK:
                 gameStatus.setText("Player Blackjack");
+                togglePlayerBlackjack = true;
                 btnHit.setEnabled(false);
                 btnStand.setEnabled(false);
                 dealerDrawCard();
                 dealerSetCard();
                 dealerBlackjack(mDealer.dealerBlackjack());
-                playerWinGame();
                 break;
         }
     }
@@ -235,26 +260,36 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
     private void dealerBlackjack(int status) {
         switch(status){
             case NOT_BLACKJACK:
-                while(mDealer.getTotalValue()<17){
-                    if (dealerCurrCard<maxCard){
-                        dealerHit();
+                if(togglePlayerBlackjack == true){
+                    gameStatus.setText("Player Blackjack");
+                    playerWinGame();
+                }
+                else if(togglePlayerBlackjack == false){
+                    while(mDealer.getTotalValue()<17){
+                        if (dealerCurrCard<maxCard){
+                            dealerHit();
+                        }
+                        else {
+                            checkDealerMaxCard();
+                            break;
+                        }
                     }
-                    else {
+                    if(dealerCurrCard<maxCard && mDealer.getTotalValue()>=17){
+                        dealerHitLoss(mDealer.dealerHitLoss());
+                    }
+                    else if(dealerCurrCard>=maxCard && mDealer.getTotalValue()>=17){
                         checkDealerMaxCard();
-                        break;
                     }
-                }
-                if(dealerCurrCard<maxCard && mDealer.getTotalValue()>=17){
-                    dealerHitLoss(mDealer.dealerHitLoss());
-                }
-                else if(dealerCurrCard==maxCard && mDealer.getTotalValue()>=17){
-                    checkDealerMaxCard();
                 }
                 break;
             case BLACKJACK:
-                gameStatus.setText("Dealer Blackjack");
-                if(mDealer.getTotalValue()==21 && mPlayer.getTotalValue() == 21){
+                if(togglePlayerBlackjack == true){
                     gameStatus.setText("Both blackjack, but player win as rule stated");
+                    playerWinGame();
+                }
+                else  if(togglePlayerBlackjack == false){
+                    gameStatus.setText("Dealer Blackjack");
+                    playerLossGame();
                 }
                 break;
         }
@@ -372,7 +407,10 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
 
-                        History history = new History(historyID,totalGame,totalWin);
+                        double calcPercent = (((double)totalWin/(double)totalGame)*100);
+//                        int percentageWin = (int) calcPercent;
+//                        Log.d("testo", "onDataChange: "+String.valueOf(calcPercent));
+                        History history = new History(historyID,totalGame,(int)calcPercent);
                         reference.child(username).child(String.valueOf(historyID)).setValue(history);
 
                     }
@@ -385,13 +423,25 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
             });
         }
         ResetGame resetGame = new ResetGame();
-        resetGame.show(getSupportFragmentManager(), "resetGameLayout");
+        resetGame.setCancelable(false);
+        Bundle args = new Bundle();
+        args.putInt("TOTAL_GAME", totalGame);
+        args.putInt("TOTAL_WIN",totalWin);
+        resetGame.setArguments(args);
+        resetGame.show(getSupportFragmentManager(), "resetGame Layout");
     }
 
     public void refreshGame(){
         finish();
         overridePendingTransition(0, 0);
-        startActivity(getIntent());
+        Intent intent = new Intent(GameActivity.this, GameActivity.class);
+        intent.putExtra("MAXCARD", maxCard);
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("HISTORYID", historyID);
+        intent.putExtra("RECORDHISTORY", recordHistory);
+        intent.putExtra("TOTALGAME", totalGame);
+        intent.putExtra("TOTALWIN", totalWin);
+        startActivity(intent);
         overridePendingTransition(0, 0);
     }
 
@@ -399,19 +449,22 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
     public void onBackPressed() {
         finish();
         Intent intent = new Intent( GameActivity.this, GameMenu.class);
+        intent.putExtra("RECORDHISTORY", recordHistory);
         startActivity(intent);
     }
 
     @Override
     public void onButtonClicked(String text) {
         if(text.equals("Main menu")){
-            refreshGame();
-        }
-        else if (text.equals("Play again")){
             finish();
             Intent intent = new Intent( GameActivity.this, GameMenu.class);
+            intent.putExtra("RECORDHISTORY", recordHistory);
             startActivity(intent);
         }
+        else if (text.equals("Play again")){
+            refreshGame();
+        }
     }
+
 }
 

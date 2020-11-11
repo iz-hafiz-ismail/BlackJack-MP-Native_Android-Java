@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/player_first_card_hint"
-                app:srcCompat="@drawable/queen_of_hearts" />
+                app:srcCompat="@drawable/red_back" />
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -139,7 +139,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/player_first_card_hint"
-                app:srcCompat="@drawable/queen_of_hearts" />
+                app:srcCompat="@drawable/blue_back" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -148,7 +148,7 @@
                 android:layout_marginStart="-55dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/player_second_card_hint"
-                app:srcCompat="@drawable/jack_of_hearts" />
+                app:srcCompat="@drawable/blue_back" />
 
         </LinearLayout>
         <RelativeLayout
@@ -180,7 +180,8 @@
             android:layout_height="wrap_content"
             android:onClick="hit"
             android:text="Hit"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/buttonStand"
@@ -188,7 +189,24 @@
             android:layout_height="wrap_content"
             android:onClick="stand"
             android:text="Stand"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:visibility="gone"/>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btnStartGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Play"
+            android:onClick="Start"
+            android:textColor="#FFFFFF" />
+
+    </RelativeLayout>
+
 </LinearLayout>
