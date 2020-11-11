@@ -84,6 +84,7 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
                             intent.putExtra("MAXCARD", maxCard);
                             intent.putExtra("USERNAME", username);
                             intent.putExtra("HISTORYID", timeStamp);
+                            intent.putExtra("RECORDHISTORY", recordHistory);
                             startActivity(intent);
                         }
                     }

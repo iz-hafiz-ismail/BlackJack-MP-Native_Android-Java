@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.blackjack.R;
 import com.example.blackjackgame.model.History;
-import com.example.blackjackgame.model.HistoryAdapter;
 import com.example.blackjackgame.viewmodel.Dealer;
 import com.example.blackjackgame.viewmodel.Deck;
 import com.example.blackjackgame.viewmodel.Player;
@@ -28,9 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class GameActivity extends AppCompatActivity {
     TextView playerTotalPoint,gameStatus,maxHitAllowed,dealerTotalPoint;
@@ -56,6 +51,8 @@ public class GameActivity extends AppCompatActivity {
 
     String username;
     String historyID;
+
+    boolean recordHistory;
 
     static final int BLACKJACK=0;
     static final int NOT_BLACKJACK=1;
@@ -100,6 +97,7 @@ public class GameActivity extends AppCompatActivity {
             maxCard =  mIntent.getIntExtra("MAXCARD", 0);
             username = mIntent.getStringExtra("USERNAME");
             historyID = mIntent.getStringExtra("HISTORYID");
+            recordHistory = mIntent.getBooleanExtra("RECORDHISTORY",true);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -109,23 +107,25 @@ public class GameActivity extends AppCompatActivity {
         Query checkUser = reference.orderByChild("userName").equalTo(username);
 
 
-        reference.child(username).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    totalGame = snapshot.child(String.valueOf(historyID)).child("totalGame").getValue(Integer.class);
-                    totalWin = snapshot.child(String.valueOf(historyID)).child("totalWin").getValue(Integer.class);
+        if(recordHistory==true){
+            reference.child(username).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        totalGame = snapshot.child(String.valueOf(historyID)).child("totalGame").getValue(Integer.class);
+                        totalWin = snapshot.child(String.valueOf(historyID)).child("totalWin").getValue(Integer.class);
+                    }
+                    else{
+                        Log.d("testo", "onDataChange: huhu");
+                    }
                 }
-                else{
-                    Log.d("testo", "onDataChange: huhu");
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+            });
+        }
 
         startGame();
     }
@@ -381,22 +381,24 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void databaseUpdater(){
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+        if(recordHistory==true){
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
 
                         History history = new History(historyID,totalGame,totalWin);
                         reference.child(username).child(String.valueOf(historyID)).setValue(history);
 
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     public void refreshGame(){
