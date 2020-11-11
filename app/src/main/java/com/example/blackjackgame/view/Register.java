@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blackjack.R;
 import com.example.blackjackgame.model.UserHelper;
-import com.example.blackjackgame.other.SessionManager;
+import com.example.blackjackgame.service.SessionManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

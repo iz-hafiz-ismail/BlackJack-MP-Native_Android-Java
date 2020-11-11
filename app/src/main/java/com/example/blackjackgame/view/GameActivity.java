@@ -3,40 +3,59 @@ package com.example.blackjackgame.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.blackjack.R;
+import com.example.blackjackgame.model.History;
+import com.example.blackjackgame.model.HistoryAdapter;
 import com.example.blackjackgame.viewmodel.Dealer;
 import com.example.blackjackgame.viewmodel.Deck;
 import com.example.blackjackgame.viewmodel.Player;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class GameActivity extends AppCompatActivity {
-    TextView t1,t2,t3,t4,t5;
-    ImageView pf1,pf2,df1,df2;
-    ImageView[] arrayPf = {pf1, pf2};
-    ImageView[] arrayDf = {df1, df2};
-    Button b1,b2;
+    TextView playerTotalPoint,gameStatus,maxHitAllowed,dealerTotalPoint;
+    ImageView playerFirstCard,playerSecondCard,dealerFirstCard,dealerSecondCard;
+    ImageView[] arrayPlayerCard = {playerFirstCard, playerSecondCard};
+    ImageView[] arrayDealerCard = {dealerFirstCard,dealerSecondCard};
+    Button btnHit,btnStand;
 
-    Deck mdeck;
-    Player mplayer;
-    Dealer mdealer;
+    Deck mDeck;
+    Player mPlayer;
+    Dealer mDealer;
     LinearLayout playerHandView;
     LinearLayout dealerHandView;
+    DatabaseReference reference;
 
-    int maxCard=3;
+    int maxCard=5;
     int currCard=0;
     int dealerCurrCard=0;
     int indexPlayer = 0;
     int indexDealer = 0;
+    int totalGame =0;
+    int totalWin=0;
 
+    String username;
+    String historyID;
 
     static final int BLACKJACK=0;
     static final int NOT_BLACKJACK=1;
@@ -52,59 +71,82 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        t1=(TextView) findViewById(R.id.textView2);
-        t2=(TextView) findViewById(R.id.txtStatus);
-        t3=(TextView) findViewById(R.id.textView3);
-        t4=(TextView) findViewById(R.id.textView4);
-        t5=(TextView) findViewById(R.id.textView5);
+        playerTotalPoint=(TextView) findViewById(R.id.tvGAPlayerPoint);
+        gameStatus=(TextView) findViewById(R.id.tvStatus);
+        maxHitAllowed=(TextView) findViewById(R.id.tvGAMaxCardHit);
+        dealerTotalPoint=(TextView) findViewById(R.id.tvGADealerPoint);
 
-        b1=(Button) findViewById(R.id.buttonHit);
-        b2=(Button) findViewById(R.id.buttonStand);
+        btnHit=(Button) findViewById(R.id.buttonHit);
+        btnStand=(Button) findViewById(R.id.buttonStand);
 
-        pf1=(ImageView) findViewById(R.id.imageView);
-        pf2=(ImageView) findViewById(R.id.imageView2);
-        df1=(ImageView) findViewById(R.id.imageView3);
-        df2=(ImageView) findViewById(R.id.imageView4);
+        playerFirstCard=(ImageView) findViewById(R.id.imageView);
+        playerSecondCard=(ImageView) findViewById(R.id.imageView2);
+        dealerFirstCard=(ImageView) findViewById(R.id.imageView3);
+        dealerSecondCard=(ImageView) findViewById(R.id.imageView4);
 
-        mdeck = new ViewModelProvider(this).get(Deck.class);
-        mplayer = new ViewModelProvider(this).get(Player.class);
-        mdealer = new ViewModelProvider(this).get(Dealer.class);
+        mDeck = new ViewModelProvider(this).get(Deck.class);
+        mPlayer = new ViewModelProvider(this).get(Player.class);
+        mDealer = new ViewModelProvider(this).get(Dealer.class);
         playerHandView = findViewById(R.id.layout_player_hand);
         dealerHandView = findViewById(R.id.layout_dealer_hand);
 
-        arrayPf[0]=pf1;
-        arrayPf[1]=pf2;
-        arrayDf[0]=df1;
-        arrayDf[1]=df2;
+        arrayPlayerCard[0]=playerFirstCard;
+        arrayPlayerCard[1]=playerSecondCard;
+        arrayDealerCard[0]=dealerFirstCard;
+        arrayDealerCard[1]=dealerSecondCard;
 
         try{
             Intent mIntent = getIntent();
             maxCard =  mIntent.getIntExtra("MAXCARD", 0);
+            username = mIntent.getStringExtra("USERNAME");
+            historyID = mIntent.getStringExtra("HISTORYID");
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        t3.setText(String.valueOf(maxCard));
+        maxHitAllowed.setText(String.valueOf(maxCard));
+        reference = FirebaseDatabase.getInstance().getReference("history");
+        Query checkUser = reference.orderByChild("userName").equalTo(username);
+
+
+        reference.child(username).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    totalGame = snapshot.child(String.valueOf(historyID)).child("totalGame").getValue(Integer.class);
+                    totalWin = snapshot.child(String.valueOf(historyID)).child("totalWin").getValue(Integer.class);
+                }
+                else{
+                    Log.d("testo", "onDataChange: huhu");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         startGame();
     }
 
     private void startGame() {
-        b1.setEnabled(false);
-        b2.setEnabled(false);
+        btnHit.setEnabled(false);
+        btnStand.setEnabled(false);
         playerDrawCard();
         playerSetCard();
         playerDrawCard();
         playerSetCard();
         dealerDrawCard();
         dealerSetCard();
-        playerBlackjack(mplayer.playerBlackjack());
+        playerBlackjack(mPlayer.playerBlackjack());
     }
 
     private void newImageViewForLayoutPlayer(LinearLayout handView) {
         ImageView cardView = (ImageView) LayoutInflater.from(handView.getContext())
                 .inflate(R.layout.card_item, handView, false);
 
-        cardView.setImageResource(mdeck.getCardImage(indexPlayer-1));
+        cardView.setImageResource(mDeck.getCardImage(indexPlayer-1));
         handView.addView(cardView);
     }
 
@@ -112,46 +154,46 @@ public class GameActivity extends AppCompatActivity {
         ImageView cardView = (ImageView) LayoutInflater.from(handView.getContext())
                 .inflate(R.layout.card_item, handView, false);
 
-        cardView.setImageResource(mdeck.getCardImage(indexDealer-1+25));
+        cardView.setImageResource(mDeck.getCardImage(indexDealer-1+25));
         handView.addView(cardView);
     }
 
     private void playerSetCard(){
-        arrayPf[indexPlayer-1].setImageResource(mdeck.getCardImage(indexPlayer-1));
+        arrayPlayerCard[indexPlayer-1].setImageResource(mDeck.getCardImage(indexPlayer-1));
     }
 
     private void dealerSetCard(){
-        arrayDf[indexDealer-1].setImageResource(mdeck.getCardImage(indexDealer-1+25));
+        arrayDealerCard[indexDealer-1].setImageResource(mDeck.getCardImage(indexDealer-1+25));
     }
 
     private void playerDrawCard() {
-        mplayer.setCardValue(indexPlayer,mdeck.getCardValue(indexPlayer));
-        t1.setText(String.valueOf(mplayer.getTotalValue()));
+        mPlayer.setCardValue(indexPlayer,mDeck.getCardValue(indexPlayer));
+        playerTotalPoint.setText(String.valueOf(mPlayer.getTotalValue()));
         indexPlayer++;
         setCurrCard();
         checkPlayerMaxCard();
     }
 
     private void dealerDrawCard() {
-        mdealer.setCardValue(indexDealer,mdeck.getCardValue(indexDealer+25));
-        t5.setText(String.valueOf(mdealer.getTotalValue()));
+        mDealer.setCardValue(indexDealer,mDeck.getCardValue(indexDealer+25));
+        dealerTotalPoint.setText(String.valueOf(mDealer.getTotalValue()));
         indexDealer++;
         setDealerCurrCard();
     }
 
     private void checkPlayerMaxCard() {
         if(currCard>=maxCard) {
-            b1.setEnabled(false);
-            b2.setEnabled(false);
-            playerMaxLimit(mplayer.playerMaxCardStatus());
+            btnHit.setEnabled(false);
+            btnStand.setEnabled(false);
+            playerMaxLimit(mPlayer.playerMaxCardStatus());
         }
     }
 
     private void checkDealerMaxCard() {
         if(currCard>=maxCard) {
-            b1.setEnabled(false);
-            b2.setEnabled(false);
-            dealerMaxLimit(mdealer.dealerMaxCardStatus());
+            btnHit.setEnabled(false);
+            btnStand.setEnabled(false);
+            dealerMaxLimit(mDealer.dealerMaxCardStatus());
         }
     }
 
@@ -159,7 +201,7 @@ public class GameActivity extends AppCompatActivity {
         playerDrawCard();
         newImageViewForLayoutPlayer(playerHandView);
         if(currCard<maxCard){
-            playerHitLoss(mplayer.playerHitLoss());
+            playerHitLoss(mPlayer.playerHitLoss());
         }
 
     }
@@ -167,16 +209,16 @@ public class GameActivity extends AppCompatActivity {
     public void dealerHit() {
         dealerDrawCard();
         newImageViewForLayoutDealer(dealerHandView);
-        dealerHitLoss(mdealer.dealerHitLoss());
+        dealerHitLoss(mDealer.dealerHitLoss());
     }
 
     public void stand(View view) {
-        b1.setEnabled(false);
-        b2.setEnabled(false);
+        btnHit.setEnabled(false);
+        btnStand.setEnabled(false);
         dealerDrawCard();
         dealerSetCard();
-        dealerBlackjack(mdealer.dealerBlackjack());
-        while(mdealer.getTotalValue()<17){
+        dealerBlackjack(mDealer.dealerBlackjack());
+        while(mDealer.getTotalValue()<17){
             if (dealerCurrCard<maxCard){
                 dealerHit();
             }
@@ -186,10 +228,10 @@ public class GameActivity extends AppCompatActivity {
             }
 
         }
-        if(dealerCurrCard<maxCard && mdealer.getTotalValue()>=17){
-            dealerHitLoss(mdealer.dealerHitLoss());
+        if(dealerCurrCard<maxCard && mDealer.getTotalValue()>=17){
+            dealerHitLoss(mDealer.dealerHitLoss());
         }
-        if(dealerCurrCard==maxCard && mdealer.getTotalValue()>=17){
+        if(dealerCurrCard==maxCard && mDealer.getTotalValue()>=17){
             checkDealerMaxCard();
         }
     }
@@ -197,17 +239,18 @@ public class GameActivity extends AppCompatActivity {
     public void playerBlackjack(int status){
         switch(status){
             case NOT_BLACKJACK:
-                t2.setText("Hit");
-                b1.setEnabled(true);
-                b2.setEnabled(true);
+                gameStatus.setText("Hit");
+                btnHit.setEnabled(true);
+                btnStand.setEnabled(true);
                 break;
             case BLACKJACK:
-                t2.setText("Player Blackjack");
-                b1.setEnabled(false);
-                b2.setEnabled(false);
+                gameStatus.setText("Player Blackjack");
+                btnHit.setEnabled(false);
+                btnStand.setEnabled(false);
                 dealerDrawCard();
                 dealerSetCard();
-                dealerBlackjack(mdealer.dealerBlackjack());
+                dealerBlackjack(mDealer.dealerBlackjack());
+
                 break;
         }
     }
@@ -217,10 +260,11 @@ public class GameActivity extends AppCompatActivity {
             case NOT_BLACKJACK:
                 break;
             case BLACKJACK:
-                t2.setText("Dealer Blackjack");
-                if(mdealer.getTotalValue()==21 && mplayer.getTotalValue() == 21){
-                    t2.setText("Both blackjack, but player win as rule stated");
+                gameStatus.setText("Dealer Blackjack");
+                if(mDealer.getTotalValue()==21 && mPlayer.getTotalValue() == 21){
+                    gameStatus.setText("Both blackjack, but player win as rule stated");
                 }
+                playerLossGame();
                 break;
         }
     }
@@ -228,19 +272,20 @@ public class GameActivity extends AppCompatActivity {
     public void playerHitLoss(int status){
         switch (status){
             case ON_LIMIT:
-                t2.setText("On Limit");
-                b1.setEnabled(false);
-                b2.setEnabled(true);
+                gameStatus.setText("On Limit");
+                btnHit.setEnabled(false);
+                btnStand.setEnabled(true);
                 break;
             case IN_LIMIT:
-                t2.setText("Hit");
-                b1.setEnabled(true);
-                b2.setEnabled(true);
+                gameStatus.setText("Hit");
+                btnHit.setEnabled(true);
+                btnStand.setEnabled(true);
                 break;
             case OVER_LIMIT:
-                t2.setText("Bust : Player loss");
-                b1.setEnabled(false);
-                b2.setEnabled(false);
+                gameStatus.setText("Bust : Player loss");
+                btnHit.setEnabled(false);
+                btnStand.setEnabled(false);
+                playerLossGame();
                 break;
         }
     }
@@ -249,11 +294,12 @@ public class GameActivity extends AppCompatActivity {
         switch (status){
             case ON_LIMIT:
             case IN_LIMIT:
-                t2.setText("SHOWDOWN");
+                gameStatus.setText("SHOWDOWN");
                 battleShowdown();
                 break;
             case OVER_LIMIT:
-                t2.setText("Dealer Bust: Player Win");
+                gameStatus.setText("Dealer Bust: Player Win");
+                playerWinGame();
                 break;
         }
     }
@@ -261,13 +307,15 @@ public class GameActivity extends AppCompatActivity {
     public void playerMaxLimit(int status){
         switch (status){
             case MAX_WIN:
-                t2.setText("Player reach max card: \nplayer win");
+                gameStatus.setText("Player reach max card: \nplayer win");
+                playerWinGame();
                 break;
             case MAX_LOSS:
-                t2.setText("Player bust and reach max card: \nplayer loss");
+                gameStatus.setText("Player bust and reach max card: \nplayer loss");
+                playerLossGame();
                 break;
             case SHOWDOWN:
-                t2.setText("SHOWDOWN");
+                gameStatus.setText("SHOWDOWN");
                 stand(null);
                 break;
         }
@@ -276,42 +324,82 @@ public class GameActivity extends AppCompatActivity {
     public void dealerMaxLimit(int status){
         switch (status){
             case MAX_WIN:
-                t2.setText("Dealer reach max card: \nPlayer Loss");
+                gameStatus.setText("Dealer reach max card: \nPlayer Loss");
+                playerLossGame();
                 break;
             case MAX_LOSS:
-                t2.setText("Dealer bust reach max card: \nPlayer Win");
+                gameStatus.setText("Dealer bust reach max card: \nPlayer Win");
+                playerWinGame();
                 break;
             case SHOWDOWN:
-                t2.setText("SHOWDOWN");
+                gameStatus.setText("SHOWDOWN");
                 battleShowdown();
                 break;
         }
     }
 
     private void battleShowdown() {
-        if(mdealer.getTotalValue()>mplayer.getTotalValue()){
-            t2.setText("Player Loss showdown");
+        if(mDealer.getTotalValue()>mPlayer.getTotalValue()){
+            gameStatus.setText("Player Loss showdown");
+            playerLossGame();
         }
-        else if(mdealer.getTotalValue()==mplayer.getTotalValue()){
-            t2.setText("Draw");
+        else if(mDealer.getTotalValue()==mPlayer.getTotalValue()){
+            gameStatus.setText("Draw");
         }
         else{
-            t2.setText("Player win showdown");
+            gameStatus.setText("Player win showdown");
+            playerWinGame();
         }
     }
 
     public void setCurrCard(){
         currCard++;
-        t4.setText(String.valueOf(currCard));
     }
 
     public void setDealerCurrCard(){
         dealerCurrCard++;
-        t4.setText(String.valueOf(currCard));
     }
 
 
     public void reset(View view) {
+        databaseUpdater();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+    }
+
+    public void playerWinGame(){
+        totalGame++;
+        totalWin++;
+        databaseUpdater();
+    }
+
+    public void playerLossGame(){
+        totalGame++;
+        databaseUpdater();
+    }
+
+    public void databaseUpdater(){
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+
+                        History history = new History(historyID,totalGame,totalWin);
+                        reference.child(username).child(String.valueOf(historyID)).setValue(history);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void refreshGame(){
         finish();
         overridePendingTransition(0, 0);
         startActivity(getIntent());

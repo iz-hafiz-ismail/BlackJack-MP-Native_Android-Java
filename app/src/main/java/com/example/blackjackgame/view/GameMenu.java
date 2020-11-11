@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.blackjack.R;
 import com.example.blackjackgame.model.History;
-import com.example.blackjackgame.other.SessionManager;
+import com.example.blackjackgame.service.SessionManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 public class GameMenu extends AppCompatActivity implements Setting.editDataListener{
 
     static int data;
-    static int maxCard=3;
+    static int maxCard=5;
     boolean recordHistory=true;
 
     Animation leftRight;
@@ -75,11 +75,15 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
                             int totalGame = 0;
                             int totalWin = 0;
 
-                            History history = new History(timeStamp,totalGame,totalWin);
-                            reference.child(username).child(String.valueOf(timeStamp)).setValue(history);
+                            if(recordHistory==true){
+                                History history = new History(timeStamp,totalGame,totalWin);
+                                reference.child(username).child(String.valueOf(timeStamp)).setValue(history);
+                            }
 
                             Intent intent = new Intent(GameMenu.this, GameActivity.class);
                             intent.putExtra("MAXCARD", maxCard);
+                            intent.putExtra("USERNAME", username);
+                            intent.putExtra("HISTORYID", timeStamp);
                             startActivity(intent);
                         }
                     }
