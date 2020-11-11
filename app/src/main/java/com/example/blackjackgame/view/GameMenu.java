@@ -71,7 +71,11 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
                             Date currentTime = Calendar.getInstance().getTime();
-                            String timeStamp = currentTime.toString();
+                            String dateData = currentTime.toString();
+                            String date = dateData.substring(4,10)+" "+dateData.substring(30,34);
+                            String time = dateData.substring(11,20);
+                            String timeStamp = time +"  ||  "+ date;
+
                             int totalGame = 0;
                             int totalWin = 0;
 
@@ -84,6 +88,7 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
                             intent.putExtra("MAXCARD", maxCard);
                             intent.putExtra("USERNAME", username);
                             intent.putExtra("HISTORYID", timeStamp);
+                            intent.putExtra("RECORDHISTORY", recordHistory);
                             startActivity(intent);
                         }
                     }

@@ -1,171 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.blackjackgame.view.GameActivity">
-
-    <Button
-        android:id="@+id/buttonHit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="hit"
-        android:text="Hit"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.105"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
-
-    <Button
-        android:id="@+id/buttonStand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:onClick="stand"
-        android:text="Stand"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.105"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.854" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="reset"
-        android:text="RESET"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.105"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.954" />
-
-    <TextView
-        android:id="@+id/tvGADealerPoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Dealer value"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.078" />
-
-    <TextView
-        android:id="@+id/tvGAPlayerPoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total player value"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.462" />
-
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:text="STATUS"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.386" />
-
-    <TextView
-        android:id="@+id/tvGAMaxCardHit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Max Card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+    tools:context="com.example.blackjackgame.view.GameActivity"
+    android:orientation="vertical"
+    android:background="@drawable/blackjack_background"
+    android:adjustViewBounds="true" >
 
     <LinearLayout
-        android:id="@+id/layout_player_hand"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginTop="25dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bungee"
+                    android:text="MAX CARD ALLOWED: "
+                    android:textColor="#B8AFAF"
+                    android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/player_first_card_hint"
-            app:srcCompat="@drawable/queen_of_hearts" />
+                <TextView
+                    android:id="@+id/tvGAMaxCardHit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/amaranth_bold"
+                    android:text="Max Card"
+                    android:textColor="#B8AFAF"
+                    android:textSize="25sp" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="-55dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/player_second_card_hint"
-            app:srcCompat="@drawable/jack_of_hearts" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_dealer_hand"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/layout_dealer_hand"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="20dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal" >
 
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/player_first_card_hint"
+                app:srcCompat="@drawable/queen_of_hearts" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/player_first_card_hint"
-            app:srcCompat="@drawable/queen_of_hearts" />
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="-55dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/player_second_card_hint"
+                app:srcCompat="@drawable/red_back" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="-55dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/player_second_card_hint"
-            app:srcCompat="@drawable/red_back" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tvGADealerPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/amaranth_bold"
+                android:text="Total Dealer value"
+                android:textColor="@color/bgcolor"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="STATUS"
+            android:textColor="#fff"
+            android:fontFamily="@font/bungee"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/layout_player_hand"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.61">
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/player_first_card_hint"
+                app:srcCompat="@drawable/queen_of_hearts" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="-55dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/player_second_card_hint"
+                app:srcCompat="@drawable/jack_of_hearts" />
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tvGAPlayerPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Player value"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/amaranth_bold"
+                android:textColor="@color/bgcolor"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/buttonHit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="hit"
+            android:text="Hit"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/buttonStand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="stand"
+            android:text="Stand"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</LinearLayout>
