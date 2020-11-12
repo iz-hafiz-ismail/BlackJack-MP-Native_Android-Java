@@ -159,6 +159,17 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
                 playerBlackjack(mPlayer.playerBlackjack());
             }
         }, 1400);
+
+        final Handler handler3 = new Handler(Looper.getMainLooper());
+        handler3.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(togglePlayerBlackjack == false){
+                    btnHit.setEnabled(true);
+                    btnStand.setEnabled(true);
+                }
+            }
+        }, 2100);
     }
 
     private void newImageViewForLayoutPlayer(LinearLayout handView) {
@@ -277,8 +288,6 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
         switch(status){
             case NOT_BLACKJACK:
                 gameStatus.setText("Hit");
-                btnHit.setEnabled(true);
-                btnStand.setEnabled(true);
                 break;
             case BLACKJACK:
                 gameStatus.setText("Player Blackjack");
