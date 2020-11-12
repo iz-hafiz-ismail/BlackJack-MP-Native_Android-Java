@@ -145,6 +145,10 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
         btnViewHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!(merlinsBeard.isConnected() || merlinsBeard.isConnectedToWifi())) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "No internet connection, cannot view latest history", Toast.LENGTH_LONG);
+                    toast.show();
+                }
                 Intent intent = new Intent(GameMenu.this, HistoryView.class);
                 startActivity(intent);
             }

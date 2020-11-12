@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -139,11 +141,24 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
         btnStand.setEnabled(false);
         playerDrawCard();
         playerSetCard();
-        playerDrawCard();
-        playerSetCard();
-        dealerDrawCard();
-        dealerSetCard();
-        playerBlackjack(mPlayer.playerBlackjack());
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerDrawCard();
+                playerSetCard();
+            }
+        }, 700);
+
+        final Handler handler2 = new Handler(Looper.getMainLooper());
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dealerDrawCard();
+                dealerSetCard();
+                playerBlackjack(mPlayer.playerBlackjack());
+            }
+        }, 1400);
     }
 
     private void newImageViewForLayoutPlayer(LinearLayout handView) {
@@ -163,26 +178,46 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
     }
 
     private void playerSetCard(){
-        arrayPlayerCard[indexPlayer-1].setImageResource(mDeck.getCardImage(indexPlayer-1));
-//        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(arrayPlayerCard[indexPlayer-1], "scaleX", 1f, 0f);
-//        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(arrayPlayerCard[indexPlayer-1], "scaleX", 0f, 1f);
-//        oa1.setDuration(500);
-//        oa2.setDuration(500);
-//        oa1.setInterpolator(new DecelerateInterpolator());
-//        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
-//        oa1.addListener(new AnimatorListenerAdapter() {
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                super.onAnimationEnd(animation);
-//                arrayPlayerCard[indexPlayer-1].setImageResource(mDeck.getCardImage(indexPlayer-1));
-//                oa2.start();
-//            }
-//        });
-//        oa1.start();
+//        arrayPlayerCard[indexPlayer-1].setImageResource(mDeck.getCardImage(indexPlayer-1));
+        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(arrayPlayerCard[indexPlayer-1], "scaleX", 1f, 0f);
+        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(arrayPlayerCard[indexPlayer-1], "scaleX", 0f, 1f);
+        oa1.setDuration(500);
+        oa2.setDuration(500);
+        oa1.setInterpolator(new DecelerateInterpolator());
+        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+        oa1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                arrayPlayerCard[indexPlayer-1].setImageResource(mDeck.getCardImage(indexPlayer-1));
+                oa2.start();
+            }
+        });
+        oa1.start();
     }
 
     private void dealerSetCard(){
-        arrayDealerCard[indexDealer-1].setImageResource(mDeck.getCardImage(indexDealer-1+25));
+        if(indexDealer==1){
+            final ObjectAnimator oa1 = ObjectAnimator.ofFloat(arrayDealerCard[indexDealer-1], "scaleX", 1f, 0f);
+            final ObjectAnimator oa2 = ObjectAnimator.ofFloat(arrayDealerCard[indexDealer-1], "scaleX", 0f, 1f);
+            oa1.setDuration(500);
+            oa2.setDuration(500);
+            oa1.setInterpolator(new DecelerateInterpolator());
+            oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+            oa1.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    arrayDealerCard[indexDealer-1].setImageResource(mDeck.getCardImage(indexDealer-1+25));
+                    oa2.start();
+                }
+            });
+            oa1.start();
+        }
+        else {
+            arrayDealerCard[indexDealer-1].setImageResource(mDeck.getCardImage(indexDealer-1+25));
+        }
+
     }
 
     private void playerDrawCard() {
@@ -422,13 +457,20 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
                 }
             });
         }
-        ResetGame resetGame = new ResetGame();
-        resetGame.setCancelable(false);
-        Bundle args = new Bundle();
-        args.putInt("TOTAL_GAME", totalGame);
-        args.putInt("TOTAL_WIN",totalWin);
-        resetGame.setArguments(args);
-        resetGame.show(getSupportFragmentManager(), "resetGame Layout");
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ResetGame resetGame = new ResetGame();
+                resetGame.setCancelable(false);
+                Bundle args = new Bundle();
+                args.putInt("TOTAL_GAME", totalGame);
+                args.putInt("TOTAL_WIN",totalWin);
+                resetGame.setArguments(args);
+                resetGame.show(getSupportFragmentManager(), "resetGame Layout");
+            }
+        }, 1500);
     }
 
     public void refreshGame(){
