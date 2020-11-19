@@ -4,11 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient"
     tools:context="com.example.blackjackgame.view.HistoryView">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Game History"
+        android:fontFamily="@font/bungee"
+        android:gravity="center"
+        android:textSize="28dp"
+        android:background="#0000"
+        android:layout_height="wrap_content"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/history_recycler_view"
         android:layout_width="match_parent"
+        android:background="@drawable/gradient"
         android:layout_height="match_parent" />
 
 </LinearLayout>

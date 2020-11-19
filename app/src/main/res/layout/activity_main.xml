@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="1"
-    android:background="#FFCC00"
+    android:background="@drawable/gradient"
     android:id="@+id/splash">
 
     <ImageView
@@ -31,7 +31,7 @@
         android:fontFamily="@font/bangers"
         android:text="Black's Jack"
         android:textAlignment="center"
-        android:textColor=" #3d3d29"
+        android:textColor="#fff"
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
         android:fontFamily="@font/bangers"
         android:text="Best game In The World"
         android:textAlignment="center"
-        android:textColor=" #3d3d29"
+        android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

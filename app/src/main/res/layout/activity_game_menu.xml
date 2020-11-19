@@ -2,79 +2,99 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_form"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.blackjackgame.view.GameMenu"
+    android:background="@drawable/gradient"
     android:orientation="vertical"
-    android:background="@color/bgcolor"
-    android:id="@+id/login_form">
+    tools:context="com.example.blackjackgame.view.GameMenu">
+
     <LinearLayout
-        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal"
-        android:background="@color/txtcolor">
+        android:padding="15dp">
 
         <ImageView
-            android:layout_width="190dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/avatar"/>
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/shape_name"
+            android:src="@drawable/hpenjudi" />
+
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/txt_user_name_game"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/bgcolor"
-            android:text="Let's Play Bl♠ck Jack"
+            android:layout_marginLeft="-25dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/shape_name"
             android:fontFamily="@font/bungee"
-            android:textSize="24sp"
-            android:layout_gravity="center">
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="#fff"
+            android:textSize="10sp" />
 
-
-        </TextView>
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="200dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/he" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
+
         <Button
             android:id="@+id/btn_play"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_play"
             android:text="PLAY"
-            android:textColor="#fff"
-            android:layout_gravity="center"/>
+            android:textColor="#fff" />
+
         <Button
             android:id="@+id/btn_view_history"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:text="View History"/>
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_history"
+            android:text="View History"
+            android:textColor="#fff" />
+
         <Button
             android:id="@+id/btn_settings"
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:background="@drawable/btn_setting"
+            android:onClick="openSetting"
             android:text="SEttings"
-            android:textColor="#fff"
-            android:onClick="openSetting"/>
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:text="Keluar"
-            />
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_exit"
+            android:text="Exit Game"
+            android:textColor="#fff" />
 
-        <TextView
-            android:id="@+id/txt_user_name_game"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/antic"
-            android:textColor="@color/txtcolor"
-            android:textSize="28sp"
-            android:layout_gravity="right"
-            />
 
     </LinearLayout>
 </LinearLayout>

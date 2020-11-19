@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
+    android:background="@drawable/gradient"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,6 +25,8 @@
                     android:id="@+id/tvsMaxCardHit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/antic"
+                    android:textColor="#fff"
                     android:layout_alignParentRight="true"
                     android:text="Max Card Hit:"
                     android:layout_margin="4dp"
@@ -112,6 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:autoSizeTextType="uniform"
+                android:fontFamily="@font/antic"
+                android:textColor="#fff"
                 android:text="Record History:"
                 android:layout_alignParentRight="true"
                 android:textSize="16sp" />
@@ -128,6 +133,7 @@
                 android:layout_centerHorizontal="true"
                 android:switchMinWidth="56dp"
                 android:checked="true"
+
                 android:textOff="OFF"
                 android:textOn="ON"/>
         </RelativeLayout>

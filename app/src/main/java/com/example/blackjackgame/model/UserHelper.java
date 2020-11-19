@@ -4,16 +4,16 @@ public class UserHelper {
 
     String fullname;
     String username;
-    String useremail;
-    String password;
-    String history;
 
-    public UserHelper(String fullname, String username, String useremail, String password,String history) {
+    String password;
+
+
+    public UserHelper(String fullname, String username,String password) {
         this.fullname = fullname;
         this.username = username;
-        this.useremail = useremail;
+
         this.password = password;
-        this.history = history;
+
     }
 
     public UserHelper() {
@@ -27,13 +27,13 @@ public class UserHelper {
     public void setFullName(String fullname) {
         this.fullname = fullname;
     }
-    public String getHistory() {
-        return history;
-    }
+//    public String getHistory() {
+//        return history;
+//    }
 
-    public void setHistory(String history) {
-        this.history = history;
-    }
+//    public void setHistory(String history) {
+//        this.history = history;
+//    }
 
     public String getUserName() {
         return username;
@@ -43,13 +43,13 @@ public class UserHelper {
         this.username = username;
     }
 
-    public String getUserEmail() {
-        return useremail;
-    }
+//    public String getUserEmail() {
+//        return useremail;
+//    }
 
-    public void setUserEmail(String useremail) {
-        this.useremail = useremail;
-    }
+//    public void setUserEmail(String useremail) {
+//        this.useremail = useremail;
+//    }
 
     public String getPassword() {
         return password;

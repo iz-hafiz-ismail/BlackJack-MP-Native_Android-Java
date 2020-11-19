@@ -1,6 +1,7 @@
 package com.example.blackjackgame.view;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.example.blackjack.R;
 import com.example.blackjackgame.model.History;
 import com.example.blackjackgame.model.HistoryAdapter;
 import com.example.blackjackgame.service.SessionManager;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +36,7 @@ public class HistoryView extends AppCompatActivity {
     SessionManager currentUser;
     String username;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +53,6 @@ public class HistoryView extends AppCompatActivity {
 
         mHistory = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference("history");
-        final Query checkUser = reference.orderByChild(username);
         reference.child(username).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -62,9 +64,37 @@ public class HistoryView extends AppCompatActivity {
                         Log.d("test", "onDataChange: "+ mHistory);
 
                     }
-
                     hAdapter = new HistoryAdapter(HistoryView.this, mHistory);
                     recyclerView.setAdapter(hAdapter);
+
+                    hAdapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
+
+                        @Override
+                        public void onDeleteClick(final int position) {
+
+                           final Query mQuery = reference.child(username).orderByChild("timestamp").equalTo(mHistory.get(position).getTimestamp());
+                           mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
+                                           removeItem(position);
+
+
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+
+                            });
+
+                        }
+
+                    });
+
+
                 }
                 else{
                     Log.d("test", "onDataChange: huhu");
@@ -73,10 +103,14 @@ public class HistoryView extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(HistoryView.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+
             }
         });
 
 
+    }
+    public void removeItem(int p){
+        mHistory.remove(p);
+        hAdapter.notifyItemRemoved(p);
     }
 }

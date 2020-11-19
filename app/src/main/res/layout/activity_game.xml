@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.blackjackgame.view.GameActivity"
     android:orientation="vertical"
-    android:background="@drawable/blackjack_background"
+    android:background="@drawable/gradient"
     android:adjustViewBounds="true" >
 
     <LinearLayout
@@ -171,26 +171,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="15dp">
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center">
 
         <Button
             android:id="@+id/buttonHit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="hit"
+            android:background="@drawable/btn_history"
             android:text="Hit"
             android:textColor="#FFFFFF"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:layout_margin="10dp"
+          />
 
         <Button
             android:id="@+id/buttonStand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="stand"
+            android:background="@drawable/btn_play"
             android:text="Stand"
             android:textColor="#FFFFFF"
-            android:visibility="gone"/>
+            android:visibility="gone"
+           />
 
     </LinearLayout>
 
@@ -204,6 +210,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Play"
+            android:background="@drawable/btn_setting"
             android:onClick="Start"
             android:textColor="#FFFFFF" />
 

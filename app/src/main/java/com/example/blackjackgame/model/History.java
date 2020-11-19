@@ -21,11 +21,6 @@ public class History {
     }
 
     public void setTimestamp(String timestamp) {
-//        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-//        cal.setTimeInMillis(timestamp * 1000);
-//        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
-//        return date;
-//        String time = timestamp.substring(0,19);
         this.timestamp = timestamp;
     }
 

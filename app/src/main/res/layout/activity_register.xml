@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.blackjackgame.view.Register"
-    android:background="@color/bgcolor"
+    android:background="@drawable/gradient"
     android:padding="15dp"
     android:orientation="vertical">
 
@@ -22,13 +22,13 @@
             android:layout_height="wrap_content"
             android:text="Welcome,"
             android:fontFamily="@font/bungee"
-            android:textColor="@color/txtcolor"
+            android:textColor="#fff"
             android:textSize="40sp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SignUp to become Penjudi"
-            android:textColor="@color/txtcolor"
+            android:text="SignUp to become a Gambler"
+            android:textColor="#fff"
             android:fontFamily="@font/antic"
             android:textSize="18sp">
         </TextView>
@@ -44,15 +44,15 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/txt_fullName"
-            app:boxStrokeColor="@color/txtcolor"
-            android:textColorHint="@color/txtcolor"
+            app:boxStrokeColor="#fff"
+            android:textColorHint="#fff"
             android:hint="Full name"
             >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000">
+                android:textColor="#fff">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -62,44 +62,44 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/txt_username"
-            app:boxStrokeColor="@color/txtcolor"
-            android:textColorHint="@color/txtcolor"
+            app:boxStrokeColor="#fff"
+            android:textColorHint="#fff"
             android:hint="Username"
             >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000">
+                android:textColor="#fff">
 
             </com.google.android.material.textfield.TextInputEditText>
 
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/txt_email"
-            app:boxStrokeColor="@color/txtcolor"
-            android:textColorHint="@color/txtcolor"
-            android:hint="Email"
-            >
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:id="@+id/txt_email"-->
+<!--            app:boxStrokeColor="@color/txtcolor"-->
+<!--            android:textColorHint="@color/txtcolor"-->
+<!--            android:hint="Email"-->
+<!--            >-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000000">
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="#000000">-->
 
-            </com.google.android.material.textfield.TextInputEditText>
+<!--            </com.google.android.material.textfield.TextInputEditText>-->
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/txt_password"
-            app:boxStrokeColor="@color/txtcolor"
-            android:textColorHint="@color/txtcolor"
+            app:boxStrokeColor="#fff"
+            android:textColorHint="#fff"
             app:passwordToggleEnabled="true"
             android:hint="Password"
             >
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="#000000">
+                android:textColor="#fff">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -121,15 +121,16 @@
            android:layout_height="wrap_content"
            android:text="GO"
            android:textColor="#fff"
-           android:background="@color/txtcolor"/>
+           android:background="@drawable/btn_history"/>
 
         <Button
             android:layout_marginTop="5dp"
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:text="Already have An account? login"
-            android:textColor="@color/txtcolor"
+            android:textColor="#fff"
             android:background="#00000000">
 
         </Button>

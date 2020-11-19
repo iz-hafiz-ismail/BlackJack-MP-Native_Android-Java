@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity {
                                 //Create user session
 //                                 sessionManager = new SessionManager(Login.this);
 
-                                sessionManager.createLoginSession(_fullname, _username, _password, _useremail);
+                                sessionManager.createLoginSession(_fullname, _username, _password);
 
 
                                 Intent intent = new Intent(Login.this, GameMenu.class);

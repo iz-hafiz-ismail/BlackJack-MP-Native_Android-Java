@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgcolor"
+    android:background="@drawable/gradient"
     android:padding="15dp"
     android:id="@+id/login_form_test"
     android:orientation="vertical"
@@ -24,7 +24,7 @@
         android:fontFamily="@font/bungee"
         android:text="HELLO THERE, WELCOME BACK"
 
-        android:textColor="@color/txtcolor"
+        android:textColor="#fff"
         android:textSize="40sp" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/antic"
         android:text="Sign in to continue"
-        android:textColor="@color/txtcolor"
+        android:textColor="#fff"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -48,8 +48,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/txtcolor"
-            android:textColorHint="@color/txtcolor"
+            app:boxStrokeColor="#fff"
+            android:textColorHint="#fff"
 
             android:hint="Username"
             >
@@ -57,7 +57,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000" />
+                android:textColor="#fff" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,8 +68,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/txtcolor"
-            android:textColorHint="@color/txtcolor"
+            app:boxStrokeColor="#fff"
+            android:textColorHint="#fff"
             app:passwordToggleEnabled="true"
             android:hint="Password">
 
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="#000000" />
+                android:textColor="#fff" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +88,7 @@
             android:text="FORGET PASSWORD?"
             android:background="#00000000"
             android:layout_gravity="right"
-            android:textColor="@color/txtcolor"
+            android:textColor="#fff"
             android:elevation="0dp"
             android:layout_margin="5dp"/>
 
@@ -96,16 +96,17 @@
             android:id="@+id/btn_sign_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/txtcolor"
+            android:background="@drawable/btn_history"
             android:textColor="#fff"
             android:text="Go"
-            android:textSize="20sp"/>
+
+            />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00000000"
-            android:textColor="@color/txtcolor"
+            android:textColor="#fff"
             android:layout_margin="5dp"
             android:text="new user? SIGN up"
             android:id="@+id/btn_new_user"/>

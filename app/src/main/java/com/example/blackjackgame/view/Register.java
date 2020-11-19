@@ -35,7 +35,7 @@ public class Register extends AppCompatActivity {
 
         txtFullName = findViewById(R.id.txt_fullName);
         txtUserName = findViewById(R.id.txt_username);
-        txtEmail = findViewById(R.id.txt_email);
+//        txtEmail = findViewById(R.id.txt_email);
         txtPassword = findViewById(R.id.txt_password);
 
         btnRegister = findViewById(R.id.btn_register);
@@ -78,13 +78,13 @@ public class Register extends AppCompatActivity {
 
                            String fullname = txtFullName.getEditText().getText().toString();
                            String username = txtUserName.getEditText().getText().toString();
-                           String email = txtEmail.getEditText().getText().toString();
+//                           String email = txtEmail.getEditText().getText().toString();
                            String password = txtPassword.getEditText().getText().toString();
                            String history = "history";
                            currentUser = new SessionManager(Register.this);
-                           currentUser.createLoginSession(fullname, username,email, password);
+                           currentUser.createLoginSession(fullname, username,password);
 
-                           UserHelper user = new UserHelper(fullname,username,email,password,history);
+                           UserHelper user = new UserHelper(fullname,username,password);
                            reference.child(username).setValue(user);
                            Intent i = new Intent(Register.this, GameMenu.class);
                            startActivity(i);
