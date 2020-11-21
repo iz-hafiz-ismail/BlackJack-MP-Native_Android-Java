@@ -105,7 +105,6 @@ public class HistoryView extends AppCompatActivity {
                 else{
                     Log.d("test", "onDataChange: huhu");
                 }
-                historyUpdater=1;
             }
 
             @Override
