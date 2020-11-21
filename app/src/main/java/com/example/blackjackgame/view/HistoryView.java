@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class HistoryView extends AppCompatActivity {
     List<History> mHistory;
     SessionManager currentUser;
     String username;
+    int historyUpdater=0;
 
 
     @Override
@@ -58,31 +60,40 @@ public class HistoryView extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
 
-                    for (DataSnapshot historySnapShot : snapshot.getChildren()) {
-                        History history = historySnapShot.getValue(History.class);
-                        mHistory.add(history);
-                        Log.d("test", "onDataChange: " + mHistory);
-
+                    if (historyUpdater == 0) {
+                        for (DataSnapshot historySnapShot : snapshot.getChildren()) {
+                            History history = historySnapShot.getValue(History.class);
+                            mHistory.add(history);
+                            Log.d("test", "onDataChange: "+ mHistory);
+                        }
+                        Log.d("test", "onDataChange: ayam");
+                        hAdapter = new HistoryAdapter(HistoryView.this, mHistory);
+                        recyclerView.setAdapter(hAdapter);
                     }
-                    hAdapter = new HistoryAdapter(HistoryView.this, mHistory);
-                    recyclerView.setAdapter(hAdapter);
+
+
 
                     hAdapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
 
                         @Override
                         public void onDeleteClick(final int position) {
 
-                            final Query mQuery = reference.child(username).orderByChild("timestamp").equalTo(mHistory.get(position).getTimestamp());
-                            mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                           final Query mQuery = reference.child(username).orderByChild("timestamp").equalTo(mHistory.get(position).getTimestamp());
+                           mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                   for(DataSnapshot ds:snapshot.getChildren()){
-                                       ds.getRef().removeValue();
-                                       removeItem(position);
-                                   }
+                                    for(DataSnapshot ds:snapshot.getChildren()){
+                                        ds.getRef().removeValue();
+                                        historyUpdater=1;
 
+//                                        Intent i = new Intent(HistoryView.this, HistoryView.class);
+////                                        overridePendingTransition(0, 0);
+//                                        finish();
+//                                        startActivity(i);
+//                                        overridePendingTransition(R.anim.fadein,1000);
+////                                        overridePendingTransition(0, 0);
+                                    }
                                 }
-
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
 
@@ -90,14 +101,19 @@ public class HistoryView extends AppCompatActivity {
 
                             });
 
+                           removeItem(position);
+
+
                         }
 
                     });
 
 
-                } else {
+                }
+                else{
                     Log.d("test", "onDataChange: huhu");
                 }
+                historyUpdater=1;
             }
 
             @Override
@@ -108,10 +124,8 @@ public class HistoryView extends AppCompatActivity {
 
 
     }
-
-    public void removeItem(int p) {
+    public void removeItem(int p){
         mHistory.remove(p);
         hAdapter.notifyItemRemoved(p);
-        hAdapter.notifyItemRangeChanged(p,mHistory.size());
     }
 }
