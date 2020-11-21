@@ -61,7 +61,7 @@ public class HistoryView extends AppCompatActivity {
                     for (DataSnapshot historySnapShot : snapshot.getChildren()) {
                         History history = historySnapShot.getValue(History.class);
                         mHistory.add(history);
-                        Log.d("test", "onDataChange: "+ mHistory);
+                        Log.d("test", "onDataChange: " + mHistory);
 
                     }
                     hAdapter = new HistoryAdapter(HistoryView.this, mHistory);
@@ -72,17 +72,17 @@ public class HistoryView extends AppCompatActivity {
                         @Override
                         public void onDeleteClick(final int position) {
 
-                           final Query mQuery = reference.child(username).orderByChild("timestamp").equalTo(mHistory.get(position).getTimestamp());
-                           mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            final Query mQuery = reference.child(username).orderByChild("timestamp").equalTo(mHistory.get(position).getTimestamp());
+                            mQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-
-                                           removeItem(position);
-
+                                   for(DataSnapshot ds:snapshot.getChildren()){
+                                       ds.getRef().removeValue();
+                                       removeItem(position);
+                                   }
 
                                 }
+
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
 
@@ -95,8 +95,7 @@ public class HistoryView extends AppCompatActivity {
                     });
 
 
-                }
-                else{
+                } else {
                     Log.d("test", "onDataChange: huhu");
                 }
             }
@@ -109,8 +108,10 @@ public class HistoryView extends AppCompatActivity {
 
 
     }
-    public void removeItem(int p){
+
+    public void removeItem(int p) {
         mHistory.remove(p);
         hAdapter.notifyItemRemoved(p);
+        hAdapter.notifyItemRangeChanged(p,mHistory.size());
     }
 }
