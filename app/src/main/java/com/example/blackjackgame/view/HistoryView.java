@@ -86,12 +86,7 @@ public class HistoryView extends AppCompatActivity {
                                         ds.getRef().removeValue();
                                         historyUpdater=1;
 
-//                                        Intent i = new Intent(HistoryView.this, HistoryView.class);
-////                                        overridePendingTransition(0, 0);
-//                                        finish();
-//                                        startActivity(i);
-//                                        overridePendingTransition(R.anim.fadein,1000);
-////                                        overridePendingTransition(0, 0);
+
                                     }
                                 }
                                 @Override
@@ -100,10 +95,7 @@ public class HistoryView extends AppCompatActivity {
                                 }
 
                             });
-
                            removeItem(position);
-
-
                         }
 
                     });
