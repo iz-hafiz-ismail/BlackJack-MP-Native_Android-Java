@@ -92,7 +92,7 @@ public class GameMenu extends AppCompatActivity implements Setting.editDataListe
                 String dateData = currentTime.toString();
                 String date = dateData.substring(4,10)+" "+dateData.substring(30,34);
                 String time = dateData.substring(11,20);
-                final String timeStamp = time +"  ||  "+ date;
+                final String timeStamp = date +"  ||  "+ time;
 
                 final int totalGame = 0;
                 final int totalWin = 0;
