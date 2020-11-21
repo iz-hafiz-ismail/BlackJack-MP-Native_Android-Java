@@ -302,7 +302,7 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
                         dealerSetCard();
                         dealerBlackjack(mDealer.dealerBlackjack());
                     }
-                }, 700);
+                }, 1200);
                 break;
         }
     }
