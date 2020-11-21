@@ -294,9 +294,15 @@ public class GameActivity extends AppCompatActivity implements  ResetGame.Bottom
                 togglePlayerBlackjack = true;
                 btnHit.setEnabled(false);
                 btnStand.setEnabled(false);
-                dealerDrawCard();
-                dealerSetCard();
-                dealerBlackjack(mDealer.dealerBlackjack());
+                final Handler handler3 = new Handler(Looper.getMainLooper());
+                handler3.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dealerDrawCard();
+                        dealerSetCard();
+                        dealerBlackjack(mDealer.dealerBlackjack());
+                    }
+                }, 700);
                 break;
         }
     }
